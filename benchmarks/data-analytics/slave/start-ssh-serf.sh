@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sed -i "s/master.cloudsuite.com/${JOIN_IP}/g" $HADOOP_PREFIX/etc/hadoop/core-site.xml
+sed -i "s/master.cloudsuite.com/${JOIN_IP}/g" $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
+
 # start sshd
 echo "start sshd..."
 service ssh start
@@ -11,3 +14,4 @@ echo -e "\nstart serf..."
 sleep 5
 
 serf members
+

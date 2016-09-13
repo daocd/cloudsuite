@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# Takes two arguments
+# $1: comma-separated list of nodes (master and slaves)
+# $2: choice of dataset (1 - partial small, 2 - partial large, otherwise full)
+
 #set the number of slaves
 cd $HADOOP_PREFIX/etc/hadoop
-echo "Type the number of slave nodes, followed by [ENTER]:"
-read nslaves
-for i in `seq 1 $nslaves`;
-do
-	echo "slave$i.cloudsuite.com" >> slaves
-done;
+rm slaves
+IFS=',' read -ra slaves <<< "$1"
+for i in "${slaves[@]}"; do
+  echo $i >> slaves
+done
 
 #Preparing Hadoop
 hdfs namenode -format
@@ -41,12 +44,11 @@ then
   bzip2 -d enwiki-latest-pages-articles.xml.bz2
 else
   echo "Please select a number to choose the dataset size: 1. Partial small (149MB zipped), 2. Partial larger (317MB zipped), 3. Full wikipedia (10GB zipped)"
-  read -p "Enter your choice : " choice
-  if [ "$choice" == "1" ]
+  if [ "$2" == "1" ]
   then
   echo "Getting the partial small dataset... It takes time..."
   curl https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles1.xml-p000000010p000030302.bz2 -o ${WORK_DIR}/wikixml/enwiki-latest-pages-articles.xml.bz2
-  elif [ "$choice" == "2" ]
+  elif [ "$2" == "2" ]
   then
   echo "Getting the partial larger dataset... It takes time..."
   curl https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles10.xml-p002336425p003046511.bz2 -o ${WORK_DIR}/wikixml/enwiki-latest-pages-articles.xml.bz2
