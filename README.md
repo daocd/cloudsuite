@@ -1,3 +1,5 @@
+test
+
 # CloudSuite 3.0 #
 
 [CloudSuite][csp] is a benchmark suite for cloud services. The third release consists of eight applications that have 
