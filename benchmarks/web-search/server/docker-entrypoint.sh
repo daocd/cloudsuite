@@ -11,8 +11,7 @@ $SOLR_HOME/bin/solr create_collection -c cloudsuite_web_search -d basic_configs 
 kill -9 $(pgrep java) $(pgrep java)
 
 #Download the index
-wget -O - $INDEX_URL \
-  | tar zxvf - -C $SOLR_CORE_DIR/cloudsuite_web_search*
+# wget -O - $INDEX_URL | tar zxvf - -C $SOLR_CORE_DIR/cloudsuite_web_search*
 
 echo "================================="
 echo "Index Node IP Address: "`ifconfig eth0 2>/dev/null|awk '/inet addr:/ {print $2}'|sed 's/addr://'`
